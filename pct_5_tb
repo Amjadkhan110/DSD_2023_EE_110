@@ -1,0 +1,45 @@
+`timescale 1ns / 1ps
+
+module pct_5_tb;
+    // Inputs
+    reg [3:0] num;
+    reg [2:0] s;
+    
+    // Outputs
+    wire [6:0] seg;
+    wire [7:0] an;
+    
+    // Instantiate the Unit Under Test (UUT)
+    pct_5 uut (
+        .num(num),
+        .s(s),
+        .seg(seg),
+        .an(an)
+    );
+    
+    // Test process
+    initial begin
+        // Initialize Inputs
+        num = 4'b0000;
+        s = 3'b000;
+        
+        // Wait for global reset
+        #10;
+        
+        // Apply test cases
+        repeat (16) begin
+            repeat (8) begin
+                #10;
+                $display("num = %b, s = %b -> seg = %b, an = %b", num, s, seg, an);
+                s = s + 1;
+            end
+            num = num + 1;
+            s = 3'b000;
+        end
+        
+        // End simulation
+        #10;
+        $stop;
+    end
+    
+endmodule
